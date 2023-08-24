@@ -4,14 +4,9 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 import os
-import subprocess
 
 app = Flask(__name__, static_folder='./dist', static_url_path="/")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-if not os.path.isfile('model.keras'):
-    subprocess.run(
-        ['curl --output model.keras --location "https://github.com/pgzm29/m7api/raw/ba52b73aedd7e284a129472cc74da59f77c22432/pneumonia_model.keras"'], shell=True)
 
 
 @app.route('/api/healthcheck')

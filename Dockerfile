@@ -9,9 +9,7 @@ COPY . ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# CMD ["gunicorn", "-w", "4", "-b","0.0.0.0:8000", "app:app"]
-
-# CMD ["python", "app.py"]
+ADD https://github.com/pgzm29/m7api/raw/ba52b73aedd7e284a129472cc74da59f77c22432/pneumonia_model.keras ./
 
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
 
