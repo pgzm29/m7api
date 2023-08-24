@@ -17,7 +17,7 @@ def healthcheck():
 @app.route('/api/predict', methods=['POST'])
 def predict():
     # Load the trained model
-    model_path = './pneumonia_model.h5'
+    model_path = './pneumonia_model.keras'
     model = tf.keras.models.load_model(model_path)
 
     if 'file' not in request.files:
