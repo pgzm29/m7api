@@ -4,9 +4,14 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 import os
+import subprocess
 
 app = Flask(__name__, static_folder='./dist', static_url_path="/")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+if not os.path.isfile('model.keras'):
+    subprocess.run(
+        ['curl --output model.keras --location "https://github.com/pgzm29/m7api/raw/ba52b73aedd7e284a129472cc74da59f77c22432/pneumonia_model.keras"'], shell=True)
 
 
 @app.route('/api/healthcheck')
@@ -17,8 +22,8 @@ def healthcheck():
 @app.route('/api/predict', methods=['POST'])
 def predict():
     # Load the trained model
-    model_path = './pneumonia_model.keras'
-    model = tf.keras.models.load_model(model_path)
+    model_path = './model.keras'
+    model = tf.keras.models.load_model(model_path, compile=False)
 
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'})
