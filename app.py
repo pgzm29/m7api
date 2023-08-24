@@ -8,6 +8,7 @@ import os
 app = Flask(__name__, static_folder='./dist', static_url_path="/")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+
 @app.route('/api/healthcheck')
 def healthcheck():
     return jsonify({'status': 'healthy'})
@@ -16,7 +17,7 @@ def healthcheck():
 @app.route('/api/predict', methods=['POST'])
 def predict():
     # Load the trained model
-    model_path = './pneumonia_detection_model_tuning.h5'
+    model_path = './pneumonia_model.h5'
     model = tf.keras.models.load_model(model_path)
 
     if 'file' not in request.files:
@@ -47,6 +48,7 @@ def predict():
 @app.route('/<path:path>')
 def catch_all(path):
     return app.send_static_file("index.html")
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
